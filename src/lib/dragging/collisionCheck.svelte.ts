@@ -7,9 +7,9 @@ export function detectHover(dragEl: HTMLElement, nodes: HTMLElement[]): HTMLElem
 
     const areIntersecting: Boolean =
       dragElRect.left < nodeRect.right &&
-      dragElRect.right < nodeRect.left &&
+      dragElRect.right > nodeRect.left &&
       dragElRect.top < nodeRect.bottom &&
-      dragElRect.bottom < nodeRect.top;
+      dragElRect.bottom > nodeRect.top;
 
     if (areIntersecting) {
       return node as HTMLElement;
@@ -23,9 +23,10 @@ export function detectCollision(hoveredNode: HTMLElement, dragEl: HTMLElement): 
   const dragElRules = vertices.find((vertex) => vertex.id === dragEl.id);
 
   if (hoveredNodeRules && dragElRules) {
-    //const isAcceptedByHovered = dragElRules.connectsTo.includes(hoveredNode.id)
-    //const isDraggedElCanConnect= hoveredNodeRules.accepts.includes(dragEl.id)
-    return [dragElRules.connectsTo.includes(hoveredNode.id), hoveredNodeRules.accepts.includes(dragEl.id)]
+    return [
+      dragElRules.connectsTo.includes(hoveredNode.id),
+      hoveredNodeRules.accepts.includes(dragEl.id)
+    ];
   }
 
   return [false, false];

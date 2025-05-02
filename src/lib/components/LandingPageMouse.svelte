@@ -5,9 +5,10 @@
     ondragstartHandler,
     dragoverHandler,
     dropHandler
-  } from '$lib/utils/dragBehaviour.svelte';
+  } from '$lib/dragging/dragBehaviour.svelte';
   import vertices from '$lib/alg/vertices';
   import Vertex from './Vertex.svelte';
+  import { DROP_AREA_DIV_ID, DRAG_FROM_DIV_ID } from '$lib/config/domConstants';
 </script>
 
 <main class="flex h-[200vh] w-full flex-col items-center justify-center gap-y-2 p-2">
@@ -19,7 +20,7 @@
       <legend> Code Editor</legend>
       <div
         class="relative h-full w-full rounded-md"
-        id="codeEditorDiv"
+        id={DROP_AREA_DIV_ID}
         ondrag={ondragHandler}
         ondragend={ondragendHandler}
         ondrop={dropHandler}
@@ -39,7 +40,7 @@
           ondrag={ondragHandler}
           ondragstart={ondragstartHandler}
           ondragend={ondragendHandler}
-          id="verticesArea"
+          id={DRAG_FROM_DIV_ID}
         >
           {#each vertices as vertex}
             <Vertex {vertex} />{/each}

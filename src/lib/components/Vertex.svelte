@@ -1,23 +1,62 @@
 <script lang="ts">
   let { vertex } = $props();
+  import { VERTEX_EL_CLASS } from '$lib/config/stylesAndClasses';
+  import { outputOrTypeStore } from '$lib/store';
+
+  const borderStyles = {
+    all: {
+      data: 'rounded-t-xs rounded-b-md',
+      output: 'rounded-t-md rounded-b-xs',
+      operation: 'rounded-md'
+    },
+    names: {
+      data: 'rounded-t-xs',
+      output: 'rounded-t-md',
+      operation: 'rounded-t-md'
+    },
+    info: {
+      data: 'rounded-b-md',
+      output: 'rounded-b-xs',
+      operation: 'rounded-b-md'
+    }
+  };
+  let dataToDisplay: string = $state('type');
+  let storeValue: string = $state('type');
+  $effect(() => {
+    storeValue = $outputOrTypeStore;
+    if (storeValue === 'type') {
+      dataToDisplay = vertex.type;
+    } else if (storeValue === 'output') {
+      dataToDisplay = vertex.output;
+    }
+  });
 </script>
 
 <div
   draggable="true"
   id={vertex.id}
-  class={`vertex group 
-    ${vertex.type === 'data' ? 'rounded-b-xs rounded-t-md' : ''} 
-    ${vertex.type === 'output' ? 'rounded-t-xs rounded-b-md' : ''} 
-    ${vertex.type === 'operation' ? 'rounded-md' : ''}`}
-  data-drop-area-id="codeEditorDiv"
+  data-vertex-type={vertex.type}
+  data-output-name={vertex.output}
+  class={`${VERTEX_EL_CLASS} group 
+    ${vertex.type === 'data' ? borderStyles.all.data : ''} 
+    ${vertex.type === 'output' ? borderStyles.all.output : ''} 
+    ${vertex.type === 'operation' ? borderStyles.all.operation : ''}`}
 >
   <div
-    class="flex h-2/3 w-full items-center justify-center break-normal px-4 text-center font-medium"
+    class={`group-hover:border-aura-yellow border-aura-purple flex h-2/3 w-full items-center justify-center break-normal border-2 px-4 text-center text-sm 2xl:text-base 2xl:font-medium
+    ${vertex.type === 'data' ? borderStyles.names.data : ''} 
+    ${vertex.type === 'output' ? borderStyles.names.output : ''} 
+    ${vertex.type === 'operation' ? borderStyles.names.operation : ''}`}
   >
     {vertex.humanName}
   </div>
-  <div class="bg-aura-yellow text-aura-black h-1/3 w-full text-center text-sm">
-    {vertex.type}
+  <div
+    class={`border-dark-green group-hover:border-aura-yellow bg-vertex-info-bg border-x-2 text-xs flex h-1/3 w-full items-center justify-between break-normal border-b-2 px-1 text-center 2xl:text-sm
+    ${vertex.type === 'data' ? borderStyles.info.data : ''} 
+    ${vertex.type === 'output' ? borderStyles.info.output : ''} 
+    ${vertex.type === 'operation' ? borderStyles.info.operation : ''}`}
+  >
+    <span class="text-aura-gray">{storeValue}</span><span>{dataToDisplay}</span>
   </div>
   {#if vertex.type !== 'data'}
     <div

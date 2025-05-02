@@ -1,0 +1,8 @@
+export const DROP_AREA_DIV_ID = 'codeEditorDiv';
+export const DRAG_FROM_DIV_ID = 'verticesArea';
+export const DROP_AREA_CLEANER_BUTTON_ID = 'codeAreaCleaner';
+export const EDGES_SVG_LAYER_ID = 'edgesSvgLayer';
+
+export const DATA_TRANSFER_ID_KEY = 'draggedELId';
+export const DRAG_CLONE_ID = 'curOnDragEl';
+export const HIDDEN_IMG_PREVIEW_ID = 'hiddenDragImg';
