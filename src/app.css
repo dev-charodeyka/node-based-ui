@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-dark-green: #008567;
+  --color-dark-purple: #6633bc;
+  --color-dark-red: #a2423d;
+  --color-aura-purple: #a277ff;
+  --color-aura-darkpurple: #3d375e7f;
+  --color-aura-green: #61ffca;
+  --color-aura-yellow: #ffca85;
+  --color-aura-pink: #f694ff;
+  --color-aura-red: #ff6767;
+  --color-aura-white: #edecee;
+  --color-aura-gray: #6d6d6d;
+  --color-aura-black: #15141b;
+}
+
+@layer base {
+  body {
+    background: #0f0c29; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to right,
+      #24243e,
+      #302b63,
+      #0f0c29
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      #24243e,
+      #302b63,
+      #0f0c29
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    font-family: 'JetBrains Mono', monospace;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    /* height: 200vh; */
+    width: calc(100vw - 0.4em);
+    color: #edecee;
+    overflow-x: hidden;
+  }
+
+  #codeEditorDiv {
+    background-color: #e5e5f7;
+    background-size: 7px 7px;
+    background-image: repeating-linear-gradient(
+      45deg,
+      #413a87 0,
+      #413a87 0.7000000000000001px,
+      #2d2863 0,
+      #2d2863 50%
+    );
+  }
+}
+fieldset {
+  @apply border-aura-yellow rounded-md border-2 px-2;
+}
+legend {
+  @apply text-aura-yellow ml-2 px-2;
+}
+
+.vertex {
+  @apply border-aura-yellow relative flex h-20 flex-col items-center justify-between  border-2 pt-2 bg-dark-purple hover:border-aura-green;
+}
+
+::-webkit-scrollbar {
+  width: 0.4em;
+}
+
+::-webkit-scrollbar-track {
+  background: #24243e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6633bc;
+  border-radius: 5px;
+  height: 2em;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a277ff;
+}
