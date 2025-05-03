@@ -7,7 +7,7 @@ import {
 } from './dragUtils';
 import { dataVertexStore, edgesSore } from '$lib/store';
 import { get } from 'svelte/store';
-import { drawEdgeLine } from '$lib/drawing/svgEdgesDraw.svelte';
+import { drawEdgeLine, findEdgesOfVertex, updateSvgLines } from '$lib/drawing/svgEdgesDraw.svelte';
 import { addDelButton } from './deleteAction.svelte';
 
 import {
@@ -36,6 +36,15 @@ export function ondragstartHandler(event: DragEvent) {
     event.dataTransfer.setData(DATA_TRANSFER_ID_KEY, curDraggedEl.id);
     //event.target.classList.add('draggingTEST');
     createClonesOnDrag(curDraggedEl, event);
+
+    const assotiatedEdges = findEdgesOfVertex(curDraggedEl.id);
+
+    assotiatedEdges.forEach((edge) => {
+      const edgeEl = document.getElementById(edge.edgeId);
+      if (edgeEl) {
+        edgeEl.style.opacity = '0';
+      }
+    });
     curDraggedEl.style.opacity = '0';
   }
 }
@@ -85,6 +94,16 @@ export function ondragHandler(event: DragEvent) {
     attachStylesToChildren(curOnDragClone, 'borderColor', '');
     curOnDragClone.classList.remove('animate-shake');
   }
+
+  get(edgesSore).forEach((edge) => {
+    const fromVertex = document.getElementById(edge.fromId);
+    const toVertex = document.getElementById(edge.toId);
+
+    if (fromVertex && toVertex) {
+      updateSvgLines(fromVertex);
+      updateSvgLines(toVertex);
+    }
+  });
 }
 export function ondragendHandler(event: DragEvent) {
   document.getElementById(DRAG_CLONE_ID)?.remove();
@@ -96,6 +115,14 @@ export function ondragendHandler(event: DragEvent) {
 
   curEdgeFrom = null;
   curEdgeTo = null;
+  const assotiatedEdges = findEdgesOfVertex(curDraggedEl.id);
+
+  assotiatedEdges.forEach((edge) => {
+    const edgeEl = document.getElementById(edge.edgeId);
+    if (edgeEl) {
+      edgeEl.style.opacity = '1';
+    }
+  });
 }
 
 export function dropHandler(event: DragEvent) {
@@ -127,12 +154,18 @@ export function dropHandler(event: DragEvent) {
       draggedEl.style.left = `${Math.max(0, Math.min(left, maxX))}px`;
       draggedEl.style.top = `${Math.max(0, Math.min(top, maxY))}px`;
       draggedEl.style.opacity = '1';
+      //updateSvgLines(draggedEl);
       codeEditorDiv.appendChild(draggedEl);
+
       addDelButton(draggedEl);
 
       if (curEdgeFrom && curEdgeTo) {
         drawEdgeLine(curEdgeFrom, curEdgeTo);
       }
+      //updateSvgLines(draggedEl);
+      requestAnimationFrame(() => {
+        updateSvgLines(draggedEl);
+      });
     }
   }
 }

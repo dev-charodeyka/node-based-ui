@@ -69,9 +69,10 @@ export function attachStylesToChildren<CSSKey extends keyof CSSStyleDeclaration>
 export function handleDataVertexDrop(draggedEl: HTMLElement) {
   const isDataVertex = draggedEl.dataset.vertexType === 'data';
   const isAlreadyInDropArea = draggedEl.dataset.insideDropArea === 'true';
-  if (isDataVertex && get(dataVertexStore) && !isAlreadyInDropArea) {
+ /*  if (isDataVertex && get(dataVertexStore) && !isAlreadyInDropArea) {
+    draggedEl.dataset.insideDropArea = 'false';
     return;
-  }
+  } */
   if (isDataVertex && !isAlreadyInDropArea) {
     dataVertexStore.set(true);
     draggedEl.dataset.insideDropArea = 'true';

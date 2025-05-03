@@ -3,6 +3,15 @@ import { get } from 'svelte/store';
 import { EDGES_SVG_LAYER_ID } from '$lib/config/domConstants';
 import { EDGE_LINES_COLOR } from '$lib/config/stylesAndClasses';
 
+function calcEdgeXY(fromElRect: DOMRect, toElRect: DOMRect, svgLayerRect: DOMRect) {
+  return [
+    fromElRect.left + fromElRect.width / 2 - svgLayerRect.left,
+    fromElRect.top + fromElRect.height - svgLayerRect.top,
+    toElRect.left + toElRect.width / 2 - svgLayerRect.left,
+    toElRect.top - svgLayerRect.top
+  ];
+}
+
 export function drawEdgeLine(fromEl: HTMLElement, toEL: HTMLElement) {
   const svgLayer = document.getElementById(EDGES_SVG_LAYER_ID);
   const newEdgeId = `${fromEl.id}-to-${toEL.id}`;
@@ -12,10 +21,7 @@ export function drawEdgeLine(fromEl: HTMLElement, toEL: HTMLElement) {
   const fromElRect = fromEl.getBoundingClientRect();
   const toElRect = toEL.getBoundingClientRect();
 
-  const fromX = fromElRect.left + fromElRect.width / 2 - svgLayerRect.left;
-  const fromY = fromElRect.top + fromElRect.height - svgLayerRect.top;
-  const toX = toElRect.left + toElRect.width / 2 - svgLayerRect.left;
-  const toY = toElRect.top - svgLayerRect.top;
+  const [fromX, fromY, toX, toY] = calcEdgeXY(fromElRect, toElRect, svgLayerRect);
 
   const deltaX = (toX - fromX) / 2;
   const d = `M${fromX},${fromY} C${fromX + deltaX},${fromY} ${toX - deltaX},${toY} ${toX},${toY}`;
@@ -38,4 +44,35 @@ export function drawEdgeLine(fromEl: HTMLElement, toEL: HTMLElement) {
       }
     ]);
   }
+}
+
+export function findEdgesOfVertex(draggedElId: string) {
+  return get(edgesSore).filter((edge) => edge.fromId === draggedElId || edge.toId === draggedElId);
+}
+
+export function updateSvgLines(movedVertex: HTMLElement) {
+  const svgLayer = document.getElementById(EDGES_SVG_LAYER_ID);
+
+  if (!svgLayer) return;
+  movedVertex.getBoundingClientRect();
+  const svgLayerRect = svgLayer.getBoundingClientRect();
+
+  //const assotiatedEdges = findEdgesOfVertex(movedVertex.id);
+
+  //assotiatedEdges.forEach((edge) => {
+  get(edgesSore).forEach((edge) => {
+    const edgePath = document.getElementById(edge.edgeId);
+    if (!(edgePath instanceof SVGPathElement)) return;
+    const fromVertex = document.getElementById(edge.fromId);
+    const toVertex = document.getElementById(edge.toId);
+    if (fromVertex && toVertex) {
+      const fromVertexRect = fromVertex.getBoundingClientRect();
+      const toVertexRect = toVertex.getBoundingClientRect();
+
+      const [fromX, fromY, toX, toY] = calcEdgeXY(fromVertexRect, toVertexRect, svgLayerRect);
+      const deltaX = (toX - fromX) / 2;
+      const d = `M${fromX},${fromY} C${fromX + deltaX},${fromY} ${toX - deltaX},${toY} ${toX},${toY}`;
+      edgePath.setAttribute('d', d);
+    }
+  });
 }

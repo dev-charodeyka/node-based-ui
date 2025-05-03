@@ -9,8 +9,9 @@ import {
   VERTEX_IN_DROP_WIDTH_CLASS_2XL
 } from '$lib/config/stylesAndClasses';
 import { trashBinIconSvg } from '$lib/icons/trashBin';
-import { dataVertexStore } from '$lib/store';
+import { dataVertexStore, edgesSore } from '$lib/store';
 import { enableAllDataVertices } from './dragUtils';
+import { drawEdgeLine, findEdgesOfVertex, updateSvgLines } from '$lib/drawing/svgEdgesDraw.svelte';
 
 export function addDelButton(vertexEl: HTMLElement) {
   if (vertexEl.querySelector(`.${DELETE_VERTEX_BTN_CLASS}`)) return;
@@ -70,4 +71,17 @@ function animateAndMoveVertex(vertexEl: HTMLElement, moveToEl: HTMLElement) {
     },
     { once: true }
   );
+
+  const assotiatedEdges = findEdgesOfVertex(vertexEl.id);
+  assotiatedEdges.forEach((edge) => {
+    const edgeEl = document.getElementById(edge.edgeId);
+    if (edgeEl) {
+      edgeEl.remove();
+    }
+  });
+
+  edgesSore.update((edges) => {
+    const assocEdgeIds = new Set(assotiatedEdges.map((e) => e.edgeId));
+    return edges.filter((edge) => !assocEdgeIds.has(edge.edgeId));
+  });
 }

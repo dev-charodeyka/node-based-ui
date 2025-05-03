@@ -33,7 +33,7 @@ const vertices: Vertex[] = [
     output: 'meanAdjustedMatrix',
     type: 'operation',
     connectsTo: ['2'],
-    accepts: ['4']
+    accepts: ['4', '5']
   },
   {
     id: '4',
