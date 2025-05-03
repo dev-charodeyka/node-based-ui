@@ -8,7 +8,7 @@
   } from '$lib/dragging/dragBehaviour.svelte';
   import vertices from '$lib/alg/vertices';
   import Vertex from './Vertex.svelte';
-  import { DROP_AREA_DIV_ID, DRAG_FROM_DIV_ID } from '$lib/config/domConstants';
+  import { DROP_AREA_DIV_ID, DRAG_FROM_DIV_ID, EDGES_SVG_LAYER_ID } from '$lib/config/domConstants';
 </script>
 
 <main class="flex h-[200vh] w-full flex-col items-center justify-center gap-y-2 p-2">
@@ -28,7 +28,10 @@
         ondragstart={ondragstartHandler}
         aria-label="Droppable Area"
         role="region"
-      ></div>
+      >
+        <svg id={EDGES_SVG_LAYER_ID} class="pointer-events-none absolute left-0 top-0 h-full w-full"
+        ></svg>
+      </div>
     </fieldset>
     <div class="flex h-full w-[45%] flex-col items-center justify-center gap-y-1">
       <fieldset class="h-[50%] w-full px-2 pb-2 pt-1">

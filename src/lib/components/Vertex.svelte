@@ -1,6 +1,6 @@
 <script lang="ts">
   let { vertex } = $props();
-  import { VERTEX_EL_CLASS } from '$lib/config/stylesAndClasses';
+  import { VERTEX_EL_CLASS } from '$lib/config/domConstants';
   import { outputOrTypeStore } from '$lib/store';
 
   const borderStyles = {
@@ -43,7 +43,7 @@
     ${vertex.type === 'operation' ? borderStyles.all.operation : ''}`}
 >
   <div
-    class={`group-hover:border-aura-yellow border-aura-purple flex h-2/3 w-full items-center justify-center break-normal border-2 px-4 text-center text-sm 2xl:text-base 2xl:font-medium
+    class={`group-hover:border-aura-yellow border-aura-purple flex h-2/3 w-full items-center justify-center break-normal border-2 px-4 text-center text-sm 2xl:text-base 
     ${vertex.type === 'data' ? borderStyles.names.data : ''} 
     ${vertex.type === 'output' ? borderStyles.names.output : ''} 
     ${vertex.type === 'operation' ? borderStyles.names.operation : ''}`}
@@ -51,7 +51,7 @@
     {vertex.humanName}
   </div>
   <div
-    class={`border-dark-green group-hover:border-aura-yellow bg-vertex-info-bg border-x-2 text-xs flex h-1/3 w-full items-center justify-between break-normal border-b-2 px-1 text-center 2xl:text-sm
+    class={`border-dark-green group-hover:border-aura-yellow bg-vertex-info-bg flex h-1/3 w-full items-center justify-between break-normal border-x-2 border-b-2 px-1 text-center text-xs 2xl:text-sm
     ${vertex.type === 'data' ? borderStyles.info.data : ''} 
     ${vertex.type === 'output' ? borderStyles.info.output : ''} 
     ${vertex.type === 'operation' ? borderStyles.info.operation : ''}`}

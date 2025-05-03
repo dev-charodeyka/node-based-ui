@@ -100,7 +100,7 @@ legend {
 }
 
 .vertex {
-  @apply bg-dark-purple bg-vertex-bg relative flex h-20 flex-col items-center justify-between;
+  @apply bg-vertex-bg relative flex h-20 flex-col items-center justify-between;
 }
 
 .disabled-drag {
@@ -109,6 +109,11 @@ legend {
 .draggingTEST {
   @apply animate-shake w-54 border-4 border-pink-600 bg-amber-950 opacity-100;
 }
+
+.delete-vertex-btn {
+  @apply border-aura-purple hover:border-aura-pink text-aura-red hover:text-aura-pink absolute top-1 right-1 h-6 w-6 cursor-pointer rounded-full border p-0.5 text-center;
+}
+
 ::-webkit-scrollbar {
   width: 0.4em;
 }

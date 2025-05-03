@@ -7,6 +7,8 @@ import {
 } from './dragUtils';
 import { dataVertexStore, edgesSore } from '$lib/store';
 import { get } from 'svelte/store';
+import { drawEdgeLine } from '$lib/drawing/svgEdgesDraw.svelte';
+import { addDelButton } from './deleteAction.svelte';
 
 import {
   DROP_AREA_DIV_ID,
@@ -21,7 +23,8 @@ import {
   BORDER_COLOUR_NO_COLLISION,
   VERTEX_IN_DROP_WIDTH_STYLE,
   VERTEX_IN_DROP_WIDTH_CLASS,
-  VERTEX_IN_DROP_WIDTH_CLASS_2XL
+  VERTEX_IN_DROP_WIDTH_CLASS_2XL,
+  VERTEX_IN_DROP_PADDING_CLASS
 } from '$lib/config/stylesAndClasses';
 
 let curEdgeFrom: HTMLElement | null = $state(null);
@@ -70,6 +73,10 @@ export function ondragHandler(event: DragEvent) {
       //curOnDragClone.style.backgroundColor = 'blue';
       attachStylesToChildren(curOnDragClone, 'borderColor', BORDER_COLOUR_YES_COLLISION);
       attachStylesToChildren(hoveredNode, 'borderColor', BORDER_COLOUR_YES_COLLISION);
+      curOnDragClone.classList.remove('animate-shake');
+
+      curEdgeFrom = hoveredNode;
+      curEdgeTo = curDraggedEl;
     } else {
       attachStylesToChildren(curOnDragClone, 'borderColor', BORDER_COLOUR_NO_COLLISION);
       curOnDragClone.classList.add('animate-shake');
@@ -86,6 +93,9 @@ export function ondragendHandler(event: DragEvent) {
   if (curDraggedEl) {
     curDraggedEl.style.opacity = '1';
   }
+
+  curEdgeFrom = null;
+  curEdgeTo = null;
 }
 
 export function dropHandler(event: DragEvent) {
@@ -100,7 +110,11 @@ export function dropHandler(event: DragEvent) {
     if (draggedEl instanceof HTMLElement) {
       handleDataVertexDrop(draggedEl);
       draggedEl.style.position = 'absolute';
-      draggedEl.classList.add(VERTEX_IN_DROP_WIDTH_CLASS, VERTEX_IN_DROP_WIDTH_CLASS_2XL);
+      draggedEl.classList.add(
+        VERTEX_IN_DROP_WIDTH_CLASS,
+        VERTEX_IN_DROP_WIDTH_CLASS_2XL
+        //VERTEX_IN_DROP_PADDING_CLASS
+      );
 
       const elWidth = draggedEl.offsetWidth;
       const elHeight = draggedEl.offsetHeight;
@@ -114,9 +128,17 @@ export function dropHandler(event: DragEvent) {
       draggedEl.style.top = `${Math.max(0, Math.min(top, maxY))}px`;
       draggedEl.style.opacity = '1';
       codeEditorDiv.appendChild(draggedEl);
+      addDelButton(draggedEl);
+
+      if (curEdgeFrom && curEdgeTo) {
+        drawEdgeLine(curEdgeFrom, curEdgeTo);
+      }
     }
   }
 }
 export function dragoverHandler(event: DragEvent) {
   event.preventDefault();
+  if (event.dataTransfer) {
+    event.dataTransfer.dropEffect = 'move';
+  }
 }

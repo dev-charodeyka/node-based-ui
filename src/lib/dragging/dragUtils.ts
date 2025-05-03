@@ -89,6 +89,14 @@ function disableOtherDataVertices(addedDataElId: string) {
   });
 }
 
+export function enableAllDataVertices() {
+  const allDataVertices = document.querySelectorAll<HTMLElement>('[data-vertex-type="data"]');
+  allDataVertices.forEach((vertex) => {
+    vertex.setAttribute('draggable', 'true');
+    reattachClassesToChildren(vertex, 'disabled-drag', 'remove');
+  });
+}
+
 function reattachClassesToChildren(el: HTMLElement, className: string, action: 'add' | 'remove') {
   Array.from(el.children).forEach((child) => {
     if (child instanceof HTMLElement) {
