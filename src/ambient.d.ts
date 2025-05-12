@@ -1,10 +1,10 @@
-type Edge = {
+type EdgeType = {
   fromId: string;
   toId: string;
   edgeId: string;
 };
 
-type Vertex = {
+type VertexType = {
   id: string;
   humanName: string;
   codeName: string;

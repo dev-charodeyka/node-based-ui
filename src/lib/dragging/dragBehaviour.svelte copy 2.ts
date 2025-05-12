@@ -7,6 +7,8 @@ import {
 } from './dragUtils';
 import { dataVertexStore, edgesSore } from '$lib/store';
 import { get } from 'svelte/store';
+import { drawEdgeLine, findEdgesOfVertex, updateSvgLines } from '$lib/drawing/svgEdgesDraw.svelte';
+//import { addDelButton } from '../utils/delAddActions.svelte';
 
 import {
   DROP_AREA_DIV_ID,
@@ -19,7 +21,10 @@ import {
 import {
   BORDER_COLOUR_YES_COLLISION,
   BORDER_COLOUR_NO_COLLISION,
-  VERTEX_IN_DROP_WIDTH_STYLE
+  VERTEX_IN_DROP_WIDTH_STYLE,
+  VERTEX_IN_DROP_WIDTH_CLASS,
+  VERTEX_IN_DROP_WIDTH_CLASS_2XL,
+  VERTEX_IN_DROP_PADDING_CLASS
 } from '$lib/config/stylesAndClasses';
 
 let curEdgeFrom: HTMLElement | null = $state(null);
@@ -29,10 +34,18 @@ export function ondragstartHandler(event: DragEvent) {
   if (event.target instanceof HTMLElement && event.dataTransfer) {
     const curDraggedEl = event.target;
     event.dataTransfer.setData(DATA_TRANSFER_ID_KEY, curDraggedEl.id);
-    event.target.classList.add('draggingTEST');
-    //createClonesOnDrag(curDraggedEl, event);
+    //event.target.classList.add('draggingTEST');
+    createClonesOnDrag(curDraggedEl, event);
 
-    //curDraggedEl.style.opacity = '0';
+    const assotiatedEdges = findEdgesOfVertex(curDraggedEl.id);
+
+    assotiatedEdges.forEach((edge) => {
+      const edgeEl = document.getElementById(edge.edgeId);
+      if (edgeEl) {
+        edgeEl.style.opacity = '0';
+      }
+    });
+    curDraggedEl.style.opacity = '0';
   }
 }
 
@@ -46,6 +59,7 @@ export function ondragHandler(event: DragEvent) {
   if (!(codeEditorDiv instanceof HTMLElement)) return;
 
   curOnDragClone.style.visibility = 'visible';
+  //curOnDragClone.classList.add(VERTEX_IN_DROP_WIDTH_CLASS, VERTEX_IN_DROP_WIDTH_CLASS_2XL);
 
   //const codeEditorDivRect = codeEditorDiv.getBoundingClientRect();
   //const offsetX = event.clientX - codeEditorDivRect.left - curOnDragClone.offsetWidth / 2;
@@ -68,6 +82,10 @@ export function ondragHandler(event: DragEvent) {
       //curOnDragClone.style.backgroundColor = 'blue';
       attachStylesToChildren(curOnDragClone, 'borderColor', BORDER_COLOUR_YES_COLLISION);
       attachStylesToChildren(hoveredNode, 'borderColor', BORDER_COLOUR_YES_COLLISION);
+      curOnDragClone.classList.remove('animate-shake');
+
+      curEdgeFrom = hoveredNode;
+      curEdgeTo = curDraggedEl;
     } else {
       attachStylesToChildren(curOnDragClone, 'borderColor', BORDER_COLOUR_NO_COLLISION);
       curOnDragClone.classList.add('animate-shake');
@@ -76,6 +94,16 @@ export function ondragHandler(event: DragEvent) {
     attachStylesToChildren(curOnDragClone, 'borderColor', '');
     curOnDragClone.classList.remove('animate-shake');
   }
+
+  get(edgesSore).forEach((edge) => {
+    const fromVertex = document.getElementById(edge.fromId);
+    const toVertex = document.getElementById(edge.toId);
+
+    if (fromVertex && toVertex) {
+      updateSvgLines(fromVertex);
+      updateSvgLines(toVertex);
+    }
+  });
 }
 export function ondragendHandler(event: DragEvent) {
   document.getElementById(DRAG_CLONE_ID)?.remove();
@@ -84,6 +112,17 @@ export function ondragendHandler(event: DragEvent) {
   if (curDraggedEl) {
     curDraggedEl.style.opacity = '1';
   }
+
+  curEdgeFrom = null;
+  curEdgeTo = null;
+  const assotiatedEdges = findEdgesOfVertex(curDraggedEl.id);
+
+  assotiatedEdges.forEach((edge) => {
+    const edgeEl = document.getElementById(edge.edgeId);
+    if (edgeEl) {
+      edgeEl.style.opacity = '1';
+    }
+  });
 }
 
 export function dropHandler(event: DragEvent) {
@@ -98,7 +137,11 @@ export function dropHandler(event: DragEvent) {
     if (draggedEl instanceof HTMLElement) {
       handleDataVertexDrop(draggedEl);
       draggedEl.style.position = 'absolute';
-      draggedEl.style.width = VERTEX_IN_DROP_WIDTH_STYLE;
+      draggedEl.classList.add(
+        VERTEX_IN_DROP_WIDTH_CLASS,
+        VERTEX_IN_DROP_WIDTH_CLASS_2XL
+        //VERTEX_IN_DROP_PADDING_CLASS
+      );
 
       const elWidth = draggedEl.offsetWidth;
       const elHeight = draggedEl.offsetHeight;
@@ -111,10 +154,24 @@ export function dropHandler(event: DragEvent) {
       draggedEl.style.left = `${Math.max(0, Math.min(left, maxX))}px`;
       draggedEl.style.top = `${Math.max(0, Math.min(top, maxY))}px`;
       draggedEl.style.opacity = '1';
+      //updateSvgLines(draggedEl);
       codeEditorDiv.appendChild(draggedEl);
+
+      //addDelButton(draggedEl);
+
+      if (curEdgeFrom && curEdgeTo) {
+        drawEdgeLine(curEdgeFrom, curEdgeTo);
+      }
+      //updateSvgLines(draggedEl);
+      requestAnimationFrame(() => {
+        updateSvgLines(draggedEl);
+      });
     }
   }
 }
 export function dragoverHandler(event: DragEvent) {
   event.preventDefault();
+  if (event.dataTransfer) {
+    event.dataTransfer.dropEffect = 'move';
+  }
 }

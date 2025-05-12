@@ -1,5 +1,15 @@
 <script lang="ts">
+  import { getVerticesInCodeEditor } from '$lib/state.svelte';
+  import EdgesSvgLayer from './EdgesSvgLayer.svelte';
   import {
+    //ondragHandler,
+    ondragendHandler,
+    ondragstartHandler,
+    dragoverHandler,
+    dropHandler
+  } from '$lib/dragging/dragBehaviour.svelte';
+  import Vertex from './Vertex.svelte';
+  /*   import {
     ondragHandler,
     ondragendHandler,
     ondragstartHandler,
@@ -8,7 +18,8 @@
   } from '$lib/dragging/dragBehaviour.svelte';
   import vertices from '$lib/alg/vertices';
   import Vertex from './Vertex.svelte';
-  import { DROP_AREA_DIV_ID, DRAG_FROM_DIV_ID, EDGES_SVG_LAYER_ID } from '$lib/config/domConstants';
+  import { DROP_AREA_DIV_ID, DRAG_FROM_DIV_ID, EDGES_SVG_LAYER_ID } from '$lib/config/domConstants'; */
+  import { DROP_AREA_DIV_ID, VERTICES_ORIGIN_DIV_ID } from '$lib/config/domConstants';
 </script>
 
 <main class="flex h-[200vh] w-full flex-col items-center justify-center gap-y-2 p-2">
@@ -19,9 +30,8 @@
     <fieldset class="h-full w-[55%] px-1 pb-2">
       <legend> Code Editor</legend>
       <div
-        class="relative h-full w-full rounded-md"
+        class="flex-reverse relative flex h-full w-full items-end -space-x-48 rounded-md p-2"
         id={DROP_AREA_DIV_ID}
-        ondrag={ondragHandler}
         ondragend={ondragendHandler}
         ondrop={dropHandler}
         ondragover={dragoverHandler}
@@ -29,8 +39,10 @@
         aria-label="Droppable Area"
         role="region"
       >
-        <svg id={EDGES_SVG_LAYER_ID} class="pointer-events-none absolute left-0 top-0 h-full w-full"
-        ></svg>
+        <EdgesSvgLayer />
+        {#each getVerticesInCodeEditor(true) as { vertex, isVertexIn } (vertex.id)}
+          <Vertex {vertex} {isVertexIn} />
+        {/each}
       </div>
     </fieldset>
     <div class="flex h-full w-[45%] flex-col items-center justify-center gap-y-1">
@@ -40,13 +52,13 @@
           class="grid h-full w-full grid-cols-3 gap-4"
           aria-label="Area w/ draggable elements"
           role="region"
-          ondrag={ondragHandler}
           ondragstart={ondragstartHandler}
           ondragend={ondragendHandler}
-          id={DRAG_FROM_DIV_ID}
+          id={VERTICES_ORIGIN_DIV_ID}
         >
-          {#each vertices as vertex}
-            <Vertex {vertex} />{/each}
+          {#each getVerticesInCodeEditor(false) as { vertex, isVertexIn } (vertex.id)}
+            <Vertex {vertex} {isVertexIn} />
+          {/each}
         </div>
       </fieldset>
       <fieldset class="h-[50%] w-full">

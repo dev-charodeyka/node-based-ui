@@ -25,13 +25,14 @@ export function createClonesOnDrag(curDraggedEl: HTMLElement, event: DragEvent) 
   const offsetX = event.clientX - rect.left;
   const offsetY = event.clientY - rect.top */
   document.body.appendChild(ondragHiddenClone);
-  event.dataTransfer?.setDragImage(ondragHiddenClone, 0, 0); //offsetX, offsetY);
+  //event.dataTransfer?.setDragImage(ondragHiddenClone, 0, 0); //offsetX, offsetY);
 
   const curOnDragClone = curDraggedEl.cloneNode(true) as HTMLElement;
   curOnDragClone.id = DRAG_CLONE_ID;
   curOnDragClone.style.cssText = `pointer-events: none; position: absolute; visibility: hidden;`;
   curOnDragClone.classList.add(VERTEX_IN_DROP_WIDTH_CLASS, VERTEX_IN_DROP_WIDTH_CLASS_2XL);
   document.body.appendChild(curOnDragClone);
+  event.dataTransfer?.setDragImage(curOnDragClone, 0, 0);
 }
 
 export function filterDropDivChildren(

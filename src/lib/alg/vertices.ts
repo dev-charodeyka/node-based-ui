@@ -1,4 +1,4 @@
-const vertices: Vertex[] = [
+const vertices: VertexType[] = [
   {
     id: '0',
     humanName: 'Iris Dataset',

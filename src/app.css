@@ -16,6 +16,7 @@
   --color-aura-black: #15141b;
   --color-vertex-bg: #452380;
   --color-vertex-info-bg: #083b3e;
+  --animate-rotate: rotate;
   --animate-shake: shake 0.5s infinite;
   @keyframes shake {
     0% {
@@ -106,6 +107,7 @@ legend {
 .disabled-drag {
   @apply text-aura-red border-aura-gray pointer-events-none opacity-80 select-none;
 }
+
 .draggingTEST {
   @apply animate-shake w-54 border-4 border-pink-600 bg-amber-950 opacity-100;
 }
