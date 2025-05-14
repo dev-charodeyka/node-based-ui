@@ -8,3 +8,5 @@ export const BORDER_COLOUR_NO_COLLISION = '#a2423d';
 export const TEXT_COLOUR_ON_COLLISION = 'red';
 
 export const EDGE_LINES_COLOR = '#61ffca';
+
+export const EDGE_COLOR = '#61ffca';

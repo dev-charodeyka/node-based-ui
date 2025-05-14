@@ -55,3 +55,61 @@ export function getSelDataVertexId() {
 export function updSelDataVertexId(vertexId: string | null) {
   selectedDataVertexId = vertexId;
 }
+
+/////////////////////////////Edges State //////////////////////////////////////////////////////
+
+let edgesState = $state<EdgeType[]>([]);
+
+export function getEdges() {
+  return edgesState;
+}
+
+export function addEdge(fromId: string, toId: string) {
+  const edgeId = `${fromId}-to-${toId}`;
+  if (edgesState.some((edge) => edge.edgeId === edgeId)) return;
+  //array is replaced, so the reactivity is triggered
+  edgesState = [...edgesState, { fromId, toId, edgeId }];
+}
+
+export function deleteAllVertexEdges(vertexId: string) {
+  edgesState = edgesState.filter((edge) => edge.fromId !== vertexId && edge.toId !== vertexId);
+}
+
+//////////////////////////////Vertex Elements Bounding rects State a.k.a their  positions
+
+let verticesRectsMap = $state(new Map<string, VertexRectType>());
+
+export function updVerticesRects(
+  vertexId: string,
+  x: number,
+  y: number,
+  width: number,
+  height: number
+) {
+  const newVerticesRectsMap = new Map(verticesRectsMap);
+  newVerticesRectsMap.set(vertexId, { vertexId, x, y, width, height });
+  //reassigning map to trigger reactivity
+  verticesRectsMap = newVerticesRectsMap;
+}
+///////////////////////////// Edge Anchors state
+//derived Svelte5 state - this variables "reacts" on the changes in edgesState and changing postions of vertices elements
+let edgeAnchors = $derived.by(() => {
+  const edgesPosMap: Record<string, { x1: number; y1: number; x2: number; y2: number }> = {};
+  for (const { fromId, toId, edgeId } of edgesState) {
+    const vertexFrom = verticesRectsMap.get(fromId);
+    const vertexTo = verticesRectsMap.get(toId);
+    if (vertexFrom && vertexTo) {
+      const x1 = vertexFrom.x + vertexFrom.width / 2;
+      const y1 = vertexFrom.y + vertexFrom.height;
+      const x2 = vertexTo.x + vertexTo.width / 2;
+      const y2 = vertexTo.y;
+
+      edgesPosMap[edgeId] = { x1, x2, y1, y2 };
+    }
+  }
+  return edgesPosMap;
+});
+
+export function getEdgesAnchors() {
+  return edgeAnchors;
+}

@@ -1,25 +1,68 @@
 <script lang="ts">
+  import { tick } from 'svelte';
   import { getVerticesInCodeEditor } from '$lib/state.svelte';
   import EdgesSvgLayer from './EdgesSvgLayer.svelte';
   import {
-    //ondragHandler,
+    DROP_AREA_DIV_ID,
+    VERTICES_ORIGIN_DIV_ID,
+    VERTEX_EL_CLASS
+  } from '$lib/config/domConstants';
+
+  import {
     ondragendHandler,
     ondragstartHandler,
     dragoverHandler,
     dropHandler
   } from '$lib/dragging/dragBehaviour.svelte';
   import Vertex from './Vertex.svelte';
-  /*   import {
-    ondragHandler,
-    ondragendHandler,
-    ondragstartHandler,
-    dragoverHandler,
-    dropHandler
-  } from '$lib/dragging/dragBehaviour.svelte';
-  import vertices from '$lib/alg/vertices';
-  import Vertex from './Vertex.svelte';
-  import { DROP_AREA_DIV_ID, DRAG_FROM_DIV_ID, EDGES_SVG_LAYER_ID } from '$lib/config/domConstants'; */
-  import { DROP_AREA_DIV_ID, VERTICES_ORIGIN_DIV_ID } from '$lib/config/domConstants';
+  import PseudoCode from './PseudoCode.svelte';
+  const verticesBoundingRects = new Map<string, DOMRect>();
+
+  function captureAllVertexRects() {
+    verticesBoundingRects.clear();
+    document.querySelectorAll(`.${VERTEX_EL_CLASS}`).forEach((vertexEl) => {
+      verticesBoundingRects.set(vertexEl.id, vertexEl.getBoundingClientRect());
+    });
+  }
+
+  function animateMovingVertexEls() {
+    const vertexEls: NodeListOf<HTMLElement> = document.querySelectorAll(`.${VERTEX_EL_CLASS}`);
+    for (const vertexEl of vertexEls) {
+      const previousRect = verticesBoundingRects.get(vertexEl.id);
+      if (!(vertexEl instanceof HTMLElement) || !previousRect) continue;
+
+      const { left: newX, top: newY } = vertexEl.getBoundingClientRect();
+      const deltaX = previousRect.left - newX;
+      const deltaY = previousRect.top - newY;
+      if (!deltaX && !deltaY) continue;
+      vertexEl.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      vertexEl.getBoundingClientRect();
+      vertexEl.style.transition = 'transform 300ms ease';
+      vertexEl.style.transform = '';
+      vertexEl.addEventListener(
+        'transitioned',
+        () => {
+          vertexEl.style.transition = '';
+        },
+        { once: true }
+      );
+    }
+    verticesBoundingRects.clear();
+  }
+  //before update:
+  $effect.pre(() => {
+    captureAllVertexRects();
+    getVerticesInCodeEditor(true);
+    getVerticesInCodeEditor(false);
+  });
+  //after update:
+  $effect(() => {
+    tick().then(() => {
+      animateMovingVertexEls();
+    });
+    getVerticesInCodeEditor(true);
+    getVerticesInCodeEditor(false);
+  });
 </script>
 
 <main class="flex h-[200vh] w-full flex-col items-center justify-center gap-y-2 p-2">
@@ -63,6 +106,7 @@
       </fieldset>
       <fieldset class="h-[50%] w-full">
         <legend> Pseudo Code</legend>
+        <PseudoCode />
       </fieldset>
     </div>
   </div>

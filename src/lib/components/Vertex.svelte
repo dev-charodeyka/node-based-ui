@@ -3,7 +3,7 @@
   import { VERTEX_EL_CLASS } from '$lib/config/domConstants';
   //Iimport { outputOrTypeStore } from '$lib/store';
   const isDatavertex = vertex.type === 'data';
-  import { getSelDataVertexId } from '$lib/state.svelte';
+  import { getEdges, getSelDataVertexId } from '$lib/state.svelte';
   import AddButton from './AddButton.svelte';
   import DelButton from './DelButton.svelte';
   const borderStyles = {
@@ -25,8 +25,15 @@
   };
 
   function disableAdd(): boolean {
-    return isDatavertex && getSelDataVertexId() !== null && getSelDataVertexId !== vertex.id;
+    return isDatavertex && getSelDataVertexId() !== null && getSelDataVertexId() !== vertex.id;
   }
+
+  let infoLabel: string = $state('type');
+  let infoValue: string = $state(vertex.type);
+  $effect(() => {
+    infoLabel = getEdges().find((edge) => edge.toId === vertex.id) ? 'output' : 'type';
+    infoValue = getEdges().find((edge) => edge.toId === vertex.id) ? vertex.output : vertex.type;
+  });
 </script>
 
 <div
@@ -57,7 +64,7 @@
     ${vertex.type === 'output' ? borderStyles.info.output : ''} 
     ${vertex.type === 'operation' ? borderStyles.info.operation : ''}`}
   >
-    <span class="text-aura-gray">{'type'}</span><span>{vertex.type}</span>
+    <span class="text-aura-gray">{infoLabel}</span><span>{infoValue}</span>
   </div>
   {#if !isVertexIn && !disableAdd()}
     <AddButton />

@@ -13,3 +13,11 @@ type VertexType = {
   connectsTo: string[];
   accepts: string[];
 };
+
+type VertexRectType = {
+  vertexId: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};

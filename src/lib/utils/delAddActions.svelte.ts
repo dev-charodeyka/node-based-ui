@@ -2,7 +2,8 @@ import {
   addVertexToCodeEditor,
   getSelDataVertexId,
   updSelDataVertexId,
-  deleteVertexFromCodeEditor
+  deleteVertexFromCodeEditor,
+  deleteAllVertexEdges
 } from '$lib/state.svelte';
 import { VERTEX_EL_CLASS } from '$lib/config/domConstants';
 
@@ -29,4 +30,5 @@ export function handleDelVertex(event: MouseEvent) {
     updSelDataVertexId(null);
   }
   deleteVertexFromCodeEditor(vertexEl.id);
+  deleteAllVertexEdges(vertexEl.id);
 }
