@@ -41,7 +41,7 @@
   id={vertex.id}
   data-vertex-type={vertex.type}
   data-output-name={vertex.output}
-  class={`${VERTEX_EL_CLASS} group relative
+  class={`${VERTEX_EL_CLASS} group relative select-none
     ${isVertexIn ? 'w-54 2xl:w-64' : ''}
     ${vertex.type === 'data' ? borderStyles.all.data : ''} 
     ${vertex.type === 'output' ? borderStyles.all.output : ''} 
