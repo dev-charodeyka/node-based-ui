@@ -21,3 +21,9 @@ type VertexRectType = {
   width: number;
   height: number;
 };
+
+type PcaNodeType = {
+  id: string;
+  inputs: string[][];
+  outputs: string[];
+};

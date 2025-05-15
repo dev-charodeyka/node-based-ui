@@ -30,7 +30,8 @@ export function ondragstartHandler(event: DragEvent) {
   Object.assign(curDragClone.style, {
     position: 'absolute',
     pointerEvents: 'none',
-    visibility: 'hidden',
+    //visibility: 'hidden',
+    opacity: '0',
     zIndex: '9999'
   });
   curDragClone.classList.add(VERTEX_IN_DROP_WIDTH_CLASS, VERTEX_IN_DROP_WIDTH_CLASS_2XL);
@@ -51,7 +52,8 @@ export function dragoverHandler(event: DragEvent) {
 
   curDragClone.style.left = `${clonePosX}px`;
   curDragClone.style.top = `${clonePosY}px`;
-  curDragClone.style.visibility = 'visible';
+  //curDragClone.style.visibility = 'visible';
+  curDragClone.style.opacity = '1';
 
   codeEditorDiv = document.getElementById(DROP_AREA_DIV_ID);
   if (!(codeEditorDiv instanceof HTMLElement)) return;
@@ -96,7 +98,7 @@ export function dragoverHandler(event: DragEvent) {
   toggleCollistionStyles(hoveredVertexChildren, 'non-collided', !areCollided);
 
   toggleCollistionStyles(curDragCloneChildren, 'collided', areCollided);
-  toggleCollistionStyles(curDragCloneChildren, 'non-colided', !areCollided);
+  toggleCollistionStyles(curDragCloneChildren, 'non-collided', !areCollided);
   toggleCollistionStyles(curDragCloneChildren, 'animate-shake', !areCollided);
 
   if (areCollided) {
@@ -111,6 +113,7 @@ export function ondragendHandler() {
   }
   curDragVertex = null;
 }
+
 
 export function dropHandler(event: DragEvent) {
   event.preventDefault();

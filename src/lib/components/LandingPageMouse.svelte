@@ -65,11 +65,14 @@
   });
 </script>
 
-<main class="flex h-[200vh] w-full flex-col items-center justify-center gap-y-2 p-2">
-  <div class="text-aUra-yellow flex h-[2%] w-full items-center justify-center text-xl font-bold">
+<!-- <main class="flex h-[200vh] w-full flex-col items-center justify-center gap-y-2 p-2"> -->
+<main class="flex h-screen w-full flex-col items-center justify-center gap-y-2 p-2">
+  <!-- <div class="text-aUra-yellow flex h-[2%] w-full items-center justify-center text-xl font-bold"> -->
+  <div class="text-aUra-yellow flex h-[5%] w-full items-center justify-center text-xl font-bold">
     Principal Component Analisys: Do It Yourself
   </div>
-  <div class="flex h-[46%] w-full items-center justify-center gap-x-2">
+  <!-- <div class="flex h-[46%] w-full items-center justify-center gap-x-2"> -->
+  <div class="flex h-[94%] w-full items-center justify-center gap-x-2">
     <fieldset class="h-full w-[55%] px-1 pb-2">
       <legend> Code Editor</legend>
       <div
@@ -110,5 +113,5 @@
       </fieldset>
     </div>
   </div>
-  <fieldset class="h-[52%] w-full"><legend> Output</legend></fieldset>
+  <!-- <fieldset class="h-[52%] w-full"><legend> Output</legend></fieldset> -->
 </main>

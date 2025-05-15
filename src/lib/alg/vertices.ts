@@ -57,7 +57,7 @@ const vertices: VertexType[] = [
     id: '6',
     humanName: 'Eigen Vectors and Values',
     codeName: 'EigenvectorsAndEigenvalues',
-    output: '(eigenvectors, eigenvalues)',
+    output: 'eigen(vectors,values)',
     type: 'operation',
     connectsTo: ['5'],
     accepts: ['7']
