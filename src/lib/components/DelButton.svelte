@@ -4,7 +4,7 @@
 
 <button
   onclick={handleDelVertex}
-  class="text-aura-purple [&:hover>svg>path:first-child]:text-aura-yellow [&:hover>svg>path:first-child]:stroke-aura-red [&:hover>svg>g>path]:text-dark-purple absolute right-1 top-1 h-6 cursor-pointer rounded-full"
+  class="text-aura-purple [&:hover>svg>path:first-child]:text-aura-yellow [&:hover>svg>path:first-child]:stroke-aura-red [&:hover>svg>g>path]:text-dark-purple absolute right-1 top-1 h-6 w-6 cursor-pointer rounded-full"
   ><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24"
     ><!-- Icon from Myna UI Icons by Praveen Juge - https://github.com/praveenjuge/mynaui-icons/blob/main/LICENSE -->
     <path
