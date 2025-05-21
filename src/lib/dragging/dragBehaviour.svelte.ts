@@ -15,6 +15,44 @@ let codeEditorDivRect: DOMRect | null = null;
 
 let dragOffset = { x: 0, y: 0 };
 
+//throttling function that is used for dragover events to lower cpu consumption(dragover is fired quite a lot on screens with high resolution)
+//Raf throttling is based on requestAnimationFrame to limit the rate at which a dragover is called,
+// to ensure that the function is invoked at most once per animation frame
+
+const rafThrottle = (callback: (event: DragEvent) => void) => {
+  // tracks if a frame is already scheduled
+  // ID from requestAnimationFrame
+  let requestId: number | null = null;
+  // storing latest arguments of the funbction to throttle
+  let lastArgs: [DragEvent];
+
+  const later = (context: any) => () => {
+    console.log('THROTTLE CONTEXT', context);
+    // clear scheduled frame
+    requestId = null;
+    // call the original ondragover function
+    callback.apply(context, lastArgs);
+  };
+
+  const throttled = function (this: any, ...args: [DragEvent]) {
+    // updating to the latest arguments
+    lastArgs = args;
+    if (requestId === null) {
+      // schedule for next animation frame
+      requestId = requestAnimationFrame(later(this));
+    }
+  };
+  //cancelling = cleanup to abort a pending update (on ondragend)
+  throttled.cancel = () => {
+    if (requestId !== null) {
+      cancelAnimationFrame(requestId);
+      requestId = null;
+    }
+  };
+
+  return throttled;
+};
+
 export function ondragstartHandler(event: DragEvent) {
   if (!(event.target instanceof HTMLElement) || !event.dataTransfer) return;
   curDragVertex = event.target.closest(`.${VERTEX_EL_CLASS}`) as HTMLElement;
@@ -42,7 +80,8 @@ export function ondragstartHandler(event: DragEvent) {
   event.dataTransfer.setDragImage(curDragClone, dragOffset.x, dragOffset.y);
   curDragVertex.style.opacity = '0';
 }
-export function dragoverHandler(event: DragEvent) {
+
+function dragoverHandler(event: DragEvent) {
   event.preventDefault();
   if (!curDragClone || !curDragVertex) return;
   if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
@@ -105,6 +144,9 @@ export function dragoverHandler(event: DragEvent) {
     addEdge(hoveredVertex.id, curDragVertex.id);
   }
 }
+
+export const throttledDragover = rafThrottle(dragoverHandler);
+
 export function ondragendHandler() {
   document.getElementById(DRAG_CLONE_ID)?.remove();
   curDragClone = null;
@@ -113,7 +155,6 @@ export function ondragendHandler() {
   }
   curDragVertex = null;
 }
-
 
 export function dropHandler(event: DragEvent) {
   event.preventDefault();

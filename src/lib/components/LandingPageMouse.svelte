@@ -11,7 +11,8 @@
   import {
     ondragendHandler,
     ondragstartHandler,
-    dragoverHandler,
+    //dragoverHandler,
+    throttledDragover,
     dropHandler
   } from '$lib/dragging/dragBehaviour.svelte';
   import Vertex from './Vertex.svelte';
@@ -80,7 +81,7 @@
         id={DROP_AREA_DIV_ID}
         ondragend={ondragendHandler}
         ondrop={dropHandler}
-        ondragover={dragoverHandler}
+        ondragover={throttledDragover}
         ondragstart={ondragstartHandler}
         aria-label="Droppable Area"
         role="region"

@@ -19,7 +19,7 @@
 <div class="grid h-full w-full grid-rows-10 text-xs">
   <div class="justify-left flex h-full w-full items-center text-sm">
     <span>{'> algorithmPCA('}</span>
-    <span class="bg-aura-darkpurple border-aura-green border rounded-md px-1 py-0.5 text-center"
+    <span class="bg-aura-darkpurple border-aura-green rounded-md border px-1 py-0.5 text-center"
       >{algInputPlaceholder()}</span
     >
     <span>{'):'}</span>
@@ -41,7 +41,7 @@
   {/each}
   <div class="justify-left flex h-full w-full items-center pl-6 text-base">
     <span class="pr-2">{'return'}</span>
-    <span class="bg-aura-darkpurple  rounded-md px-1 py-0.5 text-center"
+    <span class="bg-aura-darkpurple rounded-md px-1 py-0.5 text-center"
       >{vertices.find((vertex) => vertex.id === traversedPath[traversedPath.length - 1])?.output ||
         vertices.find((vertex) => vertex.id === getSelDataVertexId())?.output ||
         'output'}</span

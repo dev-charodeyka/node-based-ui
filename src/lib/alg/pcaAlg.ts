@@ -32,15 +32,15 @@ export function traversePcaGraph(existingEdgesSet: Set<string>): string[] {
   );
 
   const graphRoot = selectedDataVertex;
-  console.log('graphRoot', graphRoot);
+  //console.log('graphRoot', graphRoot);
   if (!graphRoot || !(graphRoot in pcaBiGraph)) {
     return [];
   }
 
   const visitedNodes = new Set<string>();
-  console.log('visitedNodes', visitedNodes);
+  //console.log('visitedNodes', visitedNodes);
   const graphPath: string[] = [];
-  console.log('graphPath', graphPath);
+  //console.log('graphPath', graphPath);
   function dfs(nodeId: string) {
     if (visitedNodes.has(nodeId)) return;
     const inputsSatisfied = pcaBiGraph[nodeId].inputs.every((inputList) =>
