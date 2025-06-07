@@ -64,7 +64,7 @@ export function ondragstartHandler(event: DragEvent) {
   if (!curDragVertex) return;
   //placeholder, some browser require it to start firing drag events
   event.dataTransfer.setData('text/plain', '');
-
+  event.dataTransfer.effectAllowed = 'move';
   //setting up an image preview that will be visualized for ondragover events
 
   curDragClone = curDragVertex.cloneNode(true) as HTMLElement;
@@ -73,8 +73,8 @@ export function ondragstartHandler(event: DragEvent) {
   Object.assign(curDragClone.style, {
     position: 'absolute',
     pointerEvents: 'none',
-    //visibility: 'hidden',
-    opacity: '0',
+    visibility: 'hidden',
+    //opacity: '0',
     zIndex: '9999'
   });
   curDragClone.classList.add(VERTEX_IN_DROP_WIDTH_CLASS, VERTEX_IN_DROP_WIDTH_CLASS_2XL);
@@ -83,7 +83,7 @@ export function ondragstartHandler(event: DragEvent) {
   dragOffset.x = event.clientX - curDragVertexRect.left;
   dragOffset.y = event.clientY - curDragVertexRect.top;
   event.dataTransfer.setDragImage(curDragClone, dragOffset.x, dragOffset.y);
-  curDragVertex.style.opacity = '0';
+  //curDragVertex.style.opacity = '0';
 }
 
 function dragoverHandler(event: DragEvent) {
@@ -96,8 +96,8 @@ function dragoverHandler(event: DragEvent) {
 
   curDragClone.style.left = `${clonePosX}px`;
   curDragClone.style.top = `${clonePosY}px`;
-  //curDragClone.style.visibility = 'visible';
-  curDragClone.style.opacity = '1';
+  curDragClone.style.visibility = 'visible';
+  //curDragClone.style.opacity = '1';
 
   codeEditorDiv = document.getElementById(DROP_AREA_DIV_ID);
   if (!(codeEditorDiv instanceof HTMLElement)) return;
@@ -109,6 +109,7 @@ function dragoverHandler(event: DragEvent) {
   curDragVertex.style.position = 'absolute';
   curDragVertex.style.left = `${dragVertexPosX}px`;
   curDragVertex.style.top = `${dragVertexPosY}px`;
+  curDragVertex.style.pointerEvents = 'none';
 
   updVerticesRects(
     curDragVertex.id,
@@ -157,6 +158,7 @@ export function ondragendHandler() {
   curDragClone = null;
   if (curDragVertex) {
     curDragVertex.style.opacity = '1';
+    curDragVertex.style.pointerEvents = '';
   }
   curDragVertex = null;
 }
