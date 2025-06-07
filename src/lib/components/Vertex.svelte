@@ -48,8 +48,8 @@
     ${vertex.type === 'operation' ? borderStyles.all.operation : ''}`}
 >
   <div
-    class={` flex h-2/3 w-full items-center justify-center break-normal border-2 px-4 text-center text-sm 2xl:text-base 
-    ${isVertexIn ? 'px-6' : ''}
+    class={` flex h-2/3 w-full items-center justify-center break-normal border-2 px-4 text-center text-xs xl:text-sm 2xl:text-base 
+    ${isVertexIn ? 'px-6 border-solid' : 'border-dotted'}
     ${vertex.type === 'data' ? borderStyles.names.data : ''} 
     ${disableAdd() ? 'border-aura-gray group-hover:border-aura-red' : 'group-hover:border-aura-yellow border-dark-green'}
     ${vertex.type === 'output' ? borderStyles.names.output : ''} 
@@ -59,6 +59,7 @@
   </div>
   <div
     class={`bg-vertex-info-bg flex h-1/3 w-full items-center justify-between break-normal border-x-2 border-b-2 px-1 text-center text-xs 2xl:text-sm
+    ${isVertexIn ? 'border-solid' : 'border-dotted'}
     ${vertex.type === 'data' ? borderStyles.info.data : ''} 
     ${disableAdd() ? 'border-aura-gray group-hover:border-aura-red' : 'group-hover:border-aura-yellow border-dark-green'}
     ${vertex.type === 'output' ? borderStyles.info.output : ''} 

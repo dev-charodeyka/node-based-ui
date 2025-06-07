@@ -32,3 +32,16 @@ export function handleDelVertex(event: MouseEvent) {
   deleteVertexFromCodeEditor(vertexEl.id);
   deleteAllVertexEdges(vertexEl.id);
 }
+
+export function handleClearCodeEditor() {
+  if (getSelDataVertexId() !== null) {
+    updSelDataVertexId(null);
+  }
+
+  const allVertices = Array.from(document.querySelectorAll<HTMLElement>(`.${VERTEX_EL_CLASS}`));
+
+  allVertices.forEach((vertexEl) => {
+    deleteAllVertexEdges(vertexEl.id);
+    deleteVertexFromCodeEditor(vertexEl.id);
+  });
+}

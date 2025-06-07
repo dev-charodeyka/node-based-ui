@@ -16,13 +16,24 @@
   --color-aura-black: #15141b;
   --color-vertex-bg: #452380;
   --color-vertex-info-bg: #083b3e;
-  --animate-rotate: rotate ease 1s forwards;
+  --animate-reveal-diagonal: reveal-diagonal 0.5s ease-out forwards;
+  @keyframes reveal-diagonal {
+    from {
+      opacity: 0;
+      clip-path: inset(0 100% 50% 0);
+    }
+    to {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  --animate-rotate: rotate linear 3s infinite;
   @keyframes rotate {
-    0 {
-      transform: rotate(-90deg);
+    0% {
+      transform: rotate(-360deg);
     }
     100% {
-      transform: rotate(90deg);
+      transform: rotate(0deg);
     }
   }
   --animate-shake: shake 0.5s infinite;

@@ -27,7 +27,7 @@ const rafThrottle = (callback: (event: DragEvent) => void) => {
   let lastArgs: [DragEvent];
 
   const later = (context: any) => () => {
-    console.log('THROTTLE CONTEXT', context);
+    //console.log('THROTTLE CONTEXT', context);
     // clear scheduled frame
     requestId = null;
     // call the original ondragover function
@@ -35,6 +35,11 @@ const rafThrottle = (callback: (event: DragEvent) => void) => {
   };
 
   const throttled = function (this: any, ...args: [DragEvent]) {
+    const e = args[0];
+    e.preventDefault();
+    if (e.dataTransfer) {
+      e.dataTransfer.dropEffect = 'move';
+    }
     // updating to the latest arguments
     lastArgs = args;
     if (requestId === null) {
