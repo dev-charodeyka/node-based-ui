@@ -12,7 +12,7 @@
     if (catIgnores) return;
 
     catAnnoyedCount++;
-    if (catAnnoyedCount === 3) {
+    if (catAnnoyedCount === 2) {
       expressAnger();
       catAnnoyedCount = 0;
       catIsAngry = false;
@@ -21,7 +21,7 @@
     }
 
     catIsAngry = !catIsAngry;
-    setTimeout(() => (catIsAngry = false), 1_000);
+    setTimeout(() => (catIsAngry = false), 700);
   }
 </script>
 
@@ -53,6 +53,6 @@
     is centered around mouse events - it wasn't tailored for touch events.`}</span
     >
 
-    <span class="text-aura-green text-center text-base">{`P.S. Don't annoy the cat. He is antipatico.`}</span>
+    <span class="text-aura-green text-center text-base">{`P.S. DO not TOUCH the cat. He is antipatico.`}</span>
   </div>
 </main>
