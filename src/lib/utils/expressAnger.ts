@@ -13,7 +13,7 @@ export function expressAnger() {
   catBed.appendChild(message);
 
   scratch.className =
-    'absolute top-1/2 left-1/2 h-30 w-30 pointer-events-none animate-reveal-diagonal transform -translate-x-1/2 -translate-y-1/2 z-[999]';
+    'absolute top-1/2 left-1/2 h-40 w-40 pointer-events-none animate-reveal-diagonal transform -translate-x-1/2 -translate-y-1/2 z-[999]';
   scratch.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 512 512"
                             class="w-full h-full">
@@ -51,7 +51,7 @@ export function expressAnger() {
     catBed.appendChild(scratch);
 
     setTimeout(() => scratch.remove(), 7_000);
-  }, 700);
+  }, 1000);
 
   setTimeout(() => message.remove(), 4_000);
 }

@@ -83,7 +83,7 @@ export function ondragstartHandler(event: DragEvent) {
   dragOffset.x = event.clientX - curDragVertexRect.left;
   dragOffset.y = event.clientY - curDragVertexRect.top;
   event.dataTransfer.setDragImage(curDragClone, dragOffset.x, dragOffset.y);
-  //curDragVertex.style.opacity = '0';
+  curDragVertex.style.opacity = '0';
 }
 
 function dragoverHandler(event: DragEvent) {

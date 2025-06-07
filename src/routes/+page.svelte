@@ -1,9 +1,15 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import LandingPageMouse from '$lib/components/LandingPageMouse.svelte';
   import LandingPageTouch from '$lib/components/LandingPageTouch.svelte';
   import { handleClearCodeEditor } from '$lib/utils/delAddActions.svelte';
   let innerWidth: number = $state(0);
   let innerHeight: number = $state(0);
+  onMount(() => {
+    if (window) {
+      console.log(window.navigator);
+    }
+  });
 </script>
 
 <svelte:window bind:innerHeight bind:innerWidth onresize={handleClearCodeEditor} />
