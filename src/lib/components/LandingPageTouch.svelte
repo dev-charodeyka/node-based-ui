@@ -25,7 +25,7 @@
   }
 </script>
 
-<main class="flex h-screen w-full flex-col items-center justify-center p-6">
+<main class="flex h-screen w-full flex-col items-center justify-center px-6 py-12 text-sm">
   <div
     id={DROP_AREA_FLDST_ID}
     class="border-aura-yellow relative flex flex-col items-center justify-center gap-y-2 rounded-md border-2 px-4 py-6 lg:hidden"
@@ -39,13 +39,20 @@
         <span class="absolute -top-6.5 left-1/2 h-8 w-8 -translate-x-1/2"> <CatNotAngry /></span>
       {/if}
     </button>
-
+    <span class="text-aura-yellow text-center text-base">{`Please, open this webapp from a laptop/desktop PC`}</span>
     <span>
       {`This is a small project to experiment with the HTML Drag&Drop API. The goal is to create a
-    node-based programming interface. Real-world use cases for such types of UI are far more
-    complex than this demo, and they’re usually not meant for small devices. The JS
+    node-based programming interface.`}</span
+    >
+    <span
+      >{`Real-world use cases for such types of UI are far more
+    complex than this demo, and they’re usually not meant for small devices.`}</span
+    >
+    <span
+      >{`The JS
     is centered around mouse events - it wasn't tailored for touch events.`}</span
     >
-    <span class="text-aura-yellow">{`Please, open this webapp from a laptop/desktop PC`}</span>
+
+    <span class="text-aura-green text-center text-base">{`P.S. Don't annoy the cat. He is antipatico.`}</span>
   </div>
 </main>
