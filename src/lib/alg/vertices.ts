@@ -65,7 +65,7 @@ const vertices: VertexType[] = [
   {
     id: '7',
     humanName: 'Filter unused coordinates',
-    codeName: 'FilterOutUnusedCoordinates',
+    codeName: 'FilterOutCoordinates',
     output: 'reducedData',
     type: 'output',
     connectsTo: ['6'],
