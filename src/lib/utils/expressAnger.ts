@@ -9,7 +9,7 @@ export function expressAnger() {
 
   message.className =
     'bg-aura-darkpurple text-aura-red absolute -top-16 left-[10%] xl:left-[27%] rounded-md pointer-events-none border-b-2 p-1 text-center text-xs';
-  message.innerHTML = ` '&!#%' Leave me alone! `;
+  message.innerHTML = ` &$!#% Leave me alone! `;
   catBed.appendChild(message);
 
   scratch.className =
