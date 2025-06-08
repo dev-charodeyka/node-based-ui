@@ -94,7 +94,7 @@
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-    /* height: 200vh; */
+    height: 100vh;
     width: calc(100vw - 0.4em);
     color: #edecee;
     overflow-x: hidden;

@@ -100,14 +100,14 @@
 </script>
 
 <!-- <main class="flex h-[200vh] w-full flex-col items-center justify-center gap-y-2 p-2"> -->
-<main class="flex h-screen w-full flex-col items-center justify-center gap-y-2 p-2">
+<main class="flex h-screen w-full flex-col items-center justify-center gap-y-2 py-2 pl-2">
   <!-- <div class="text-aUra-yellow flex h-[2%] w-full items-center justify-center text-xl font-bold"> -->
-  <div class="text-aUra-yellow flex h-[4%] w-full items-center justify-center text-lg font-medium">
+  <div class="flex h-[4%] w-full items-center justify-center text-lg font-medium">
     Principal Component Analisys: Do It Yourself
   </div>
   <!-- <div class="flex h-[46%] w-full items-center justify-center gap-x-2"> -->
-  <div class="flex h-[95%] w-full items-center justify-center gap-x-2">
-    <fieldset class="relative h-full w-[55%] px-1 pb-2" id={DROP_AREA_FLDST_ID}>
+  <div class="flex h-[96%] w-full items-center justify-center gap-x-2">
+    <fieldset class="relative h-full w-[55%] pb-2" id={DROP_AREA_FLDST_ID}>
       <legend> Code Editor</legend>
       <div
         class="flex-reverse relative flex h-full w-full items-end -space-x-48 rounded-md p-2"
@@ -128,14 +128,15 @@
         onmouseenter={onMouseEnter}
         onmouseleave={onMouseLeave}
         onclick={expressAnger}
-        class="h-10 w-10"
+        class="xl:left-[22%] xl:-translate-x-[22%] absolute left-1/3 top-0 flex h-10 w-10 -translate-x-1/3 -translate-y-[calc(100%+6px)]
+        transform items-end justify-center"
       >
         {#if catIsAngry}
-          <span class="absolute -top-12 left-[30%] h-10 w-10 xl:left-[20%]">
-            <CatAngry />
-          </span>
+          <!-- <span class="absolute -top-12 left-[30%] h-10 w-10 xl:left-[20%]"> -->
+          <CatAngry />
         {:else}
-          <span class="-top-8.5 absolute left-[30%] h-7 w-7 xl:left-[20%]">
+          <!-- <span class="-top-8.5 absolute left-[30%] h-7 w-7 xl:left-[20%]"> -->
+          <span class="h-7 w-7">
             <CatNotAngry />
           </span>
         {/if}
