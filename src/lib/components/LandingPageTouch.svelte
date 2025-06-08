@@ -36,10 +36,12 @@
           <CatAngry />
         </span>
       {:else}
-        <span class="absolute -top-6.5 left-1/2 h-8 w-8 -translate-x-1/2"> <CatNotAngry /></span>
+        <span class="-top-6.5 absolute left-1/2 h-8 w-8 -translate-x-1/2"> <CatNotAngry /></span>
       {/if}
     </button>
-    <span class="text-aura-yellow text-center text-base">{`Please, open this webapp from a laptop/desktop PC`}</span>
+    <span class="text-aura-yellow text-center text-base"
+      >{`Please, open this webapp from a laptop/desktop PC`}</span
+    >
     <span>
       {`This is a small project to experiment with the HTML Drag&Drop API. The goal is to create a
     node-based programming interface.`}</span
@@ -53,6 +55,8 @@
     is centered around mouse events - it wasn't tailored for touch events.`}</span
     >
 
-    <span class="text-aura-green text-center text-base">{`P.S. DO not TOUCH the cat. He is antipatico.`}</span>
+    <span class="text-aura-green text-center text-base"
+      >{`P.S. DO not TOUCH the cat. He is antipatico.`}</span
+    >
   </div>
 </main>

@@ -1,7 +1,6 @@
 <script lang="ts">
   let { vertex, isVertexIn } = $props();
   import { VERTEX_EL_CLASS } from '$lib/config/domConstants';
-  //Iimport { outputOrTypeStore } from '$lib/store';
   const isDatavertex = vertex.type === 'data';
   import { getEdges, getSelDataVertexId } from '$lib/state.svelte';
   import AddButton from './AddButton.svelte';
@@ -49,7 +48,7 @@
 >
   <div
     class={` flex h-2/3 w-full items-center justify-center break-normal border-2 px-4 text-center text-xs xl:text-sm 2xl:text-base 
-    ${isVertexIn ? 'px-6 border-solid' : 'border-dotted'}
+    ${isVertexIn ? 'border-solid px-6' : 'border-dotted'}
     ${vertex.type === 'data' ? borderStyles.names.data : ''} 
     ${disableAdd() ? 'border-aura-gray group-hover:border-aura-red' : 'group-hover:border-aura-yellow border-dark-green'}
     ${vertex.type === 'output' ? borderStyles.names.output : ''} 

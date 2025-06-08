@@ -25,7 +25,7 @@
     <span>{'):'}</span>
   </div>
   {#each traversedPath.slice(1) as step, i (step)}
-    <div class="justify-left flex h-full w-full items-center pl-6 text-sm">
+    <div class="justify-left flex h-full w-full items-center pl-6 text-xs">
       <span class="bg-aura-darkpurple border-aura-green rounded-md border px-1 py-0.5 text-center"
         >{vertices.find((vertex) => vertex.id === step)?.output || 'output'}</span
       >
@@ -39,7 +39,7 @@
       <span>{')'}</span>
     </div>
   {/each}
-  <div class="justify-left flex h-full w-full items-center pl-6 text-base">
+  <div class="justify-left flex h-full w-full items-center pl-6 text-sm">
     <span class="pr-2">{'return'}</span>
     <span class="bg-aura-darkpurple rounded-md px-1 py-0.5 text-center"
       >{vertices.find((vertex) => vertex.id === traversedPath[traversedPath.length - 1])?.output ||

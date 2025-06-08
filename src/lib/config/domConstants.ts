@@ -6,7 +6,7 @@ export const EDGES_SVG_LAYER_ID = 'edgesSvgLayer';
 
 //export const DATA_TRANSFER_ID_KEY = 'draggedELId';
 export const DRAG_CLONE_ID = 'curOnDragEl';
-export const HIDDEN_IMG_PREVIEW_ID = 'hiddenDragImg';
+//export const HIDDEN_IMG_PREVIEW_ID = 'hiddenDragImg';
 
 //export const DELETE_VERTEX_BTN_CLASS = 'delete-vertex-btn';
 export const VERTEX_EL_CLASS = 'vertex';

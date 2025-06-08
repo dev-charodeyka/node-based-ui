@@ -31,7 +31,6 @@
 
   function onMouseEnter() {
     if (catIgnores) return;
-    // only count this if we weren't already "angry"
     if (!catIsAngry) {
       catAnnoyedCount++;
 
@@ -132,24 +131,24 @@
         class="h-10 w-10"
       >
         {#if catIsAngry}
-          <span class="absolute -top-12 left-[30%] xl:left-[20%] h-10 w-10">
+          <span class="absolute -top-12 left-[30%] h-10 w-10 xl:left-[20%]">
             <CatAngry />
           </span>
         {:else}
-          <span class="absolute -top-8.5 left-[30%] xl:left-[20%] h-7 w-7">
+          <span class="-top-8.5 absolute left-[30%] h-7 w-7 xl:left-[20%]">
             <CatNotAngry />
           </span>
         {/if}
       </button>
       <button
         onclick={handleClearCodeEditor}
-        class="border-aura-yellow text-aura-red bg-dark-purple hover:bg-aura-yellow absolute top-0 right-2 h-8 w-8 cursor-pointer rounded-full border-2 p-1"
+        class="border-aura-yellow text-aura-red bg-dark-purple hover:bg-aura-yellow absolute right-2 top-0 h-8 w-8 cursor-pointer rounded-full border-2 p-1"
       >
         <Broom />
       </button>
     </fieldset>
     <div class="flex h-full w-[45%] flex-col items-center justify-center gap-y-1">
-      <fieldset class="h-[50%] w-full px-2 pt-1 pb-2">
+      <fieldset class="h-[50%] w-full px-2 pb-2 pt-1">
         <legend>Operations</legend>
         <div
           class="grid h-full w-full grid-cols-3 gap-4"
